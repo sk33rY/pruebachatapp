@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inicio de Sesión y Registro</title>
+    <link rel="icon" href="imagenes/iconoApp.ico">
+    <link rel="stylesheet" href="estilos/formulario.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    
+
+    <!-- Formulario de inicio de sesión y registro -->
+    <div class="container" id="container">
+        <div class="form-container sign-in">
+            <form action="login.php" method="post">
+                <h1>Iniciar Sesión</h1>
+                <input class="controls" type="email" name="correo" placeholder="Ingrese su correo" id="correo" required><br>
+                <input class="controls" type="password" name="password" placeholder="Ingresa tu contraseña" id="password" required><br>
+                <input class="botons" type="submit" name="login" value="Iniciar Sesión">
+                <p><a href="#" id="showRegister">¿No tienes cuenta? Regístrate</a></p>
+            </form>
+        </div>
+
+        <div class="form-container sign-up">
+            <form action="RegistroUser.php" method="POST" name="formulario">
+                <h1>Formulario de Registro</h1>
+                <input class="controls" type="text" name="Nombres" placeholder="Ingrese su nombre completo" id="Nombres" required><br>
+                <input class="controls" type="email" name="correo" placeholder="Ingrese su correo" id="correo" required><br>
+                <input class="controls" type="tel" name="telefono" placeholder="Ingrese su celular" id="telefono" pattern="^3[0-9]{9}$" required><br>
+                <input class="controls" type="date" name="fecha_nacimiento" placeholder="Ingrese su fecha de nacimiento" id="fecha_nacimiento" required><br>
+                <input class="controls" type="text" name="direccion_residencia" placeholder="Ingrese su dirección" id="direccion_residencia" required><br>
+                <input class="controls" type="password" name="password" placeholder="Ingrese su contraseña" id="password" required><br>
+                <input class="controls" type="password" name="rePassword" placeholder="Reingrese su contraseña" id="rePassword" required><br>
+                <input class="botons" type="submit" name="submit" value="Registrar">
+                <p><a href="#" id="showLogin">¿Ya tienes cuenta? Inicia sesión</a></p>
+            </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>
