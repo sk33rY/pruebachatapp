@@ -6,6 +6,12 @@ const controlesUsuario = document.querySelector(".controles-usuario");
 const contenedor = document.querySelector(".contenedor");
 const btnMenu = document.getElementById("btn-menu");
 
+// Añade el evento click al botón de "Regístrate"
+document.getElementById('btn-sign-up').addEventListener('click', function() {
+    // Redirige a la página de inicio de sesión o registro
+    window.location.href = 'iniciose.html';
+});
+
 const responsiveY = ()=>{
     if(window.innerHeight<=362){
         if(menuOpciones.classList.contains("mostrar"))
