@@ -16,7 +16,12 @@ $id_usuario = $_SESSION['id_usuario'];
 $sql = "SELECT Nombre_completo, correo FROM usuario WHERE correo='$user'";
 $resultado = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 $row = $resultado->fetch_assoc();
+
+// Verificar si se obtuvo un resultado y manejar el caso donde $row sea null
+$nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_completo']) : 'Usuario';
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -29,11 +34,11 @@ $row = $resultado->fetch_assoc();
     <style>
         /* Estilos para el botón del menú de hamburguesa */
         #btn-menu {
-            display: none; /* Ocultarlo por defecto */
+            display: none;
             font-size: 24px;
             cursor: pointer;
             color: var(--color-principal);
-            margin-left: 10px;
+            margin-right: 10px;
         }
 
         /* Menú lateral */
@@ -92,6 +97,17 @@ $row = $resultado->fetch_assoc();
             display: block;
             text-align: left;
         }
+        /* Estilo del nombre dentro del menú desplegable */
+        .dropdown-username {
+            display: block;
+            padding: 12px 16px;
+            font-weight: bold;
+            color: var(--color-texto);
+            border-bottom: 1px solid var(--color-principal); /* Línea separadora */
+            background-color: var(--background-color);
+            text-align: left;
+            }
+
 
         .dropdown-content a:hover {
             background-color: var(--color-principal);
@@ -127,9 +143,9 @@ $row = $resultado->fetch_assoc();
     <header>
         <div class="contenedor">
             <div class="logo">
+                <ion-icon id="btn-menu" name="menu"></ion-icon> <!-- Mueve el menú hamburguesa al lado izquierdo -->
                 <ion-icon name="ionicons ion-map"></ion-icon>
                 <span>PETLOVER</span>
-                <ion-icon id="btn-menu" name="menu"></ion-icon>
             </div>
             <div class="menu-opciones">
                 <ul>
@@ -143,17 +159,18 @@ $row = $resultado->fetch_assoc();
                         <a href="catalogo.php">Busca a tu mascota</a>
                     </li>
                     <li>
-                        <a href="">¿Quienes somos?</a>
+                    <a href="pruebaregistromascota.html">Reporta tu mascota</a>
                     </li>
                 </ul>
             </div>
             <div class="controles-usuario">
-                <div class="user-container">
-                    <span class="user-name"><?php echo utf8_decode($row['Nombre_completo']); ?></span>
+            <div class="user-container">
                     <div class="user-icon">
                         <ion-icon name="person-circle-outline" id="menu-btn"></ion-icon>
                     </div>
                     <div id="menu-dropdown" class="dropdown-content">
+                        <!-- Mostrar el nombre del usuario en el menú desplegable -->
+                        <span class="dropdown-username"><?php echo $nombre_completo; ?></span>
                         <a href="perfil.php">Perfil</a>
                         <a href="ajustes.php">Ajustes</a>
                         <a href="cerrar.php">Cerrar sesión</a>
@@ -225,32 +242,6 @@ $row = $resultado->fetch_assoc();
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="js/inicio.js"></script>
-    <script>
-        // JavaScript para manejar el menú de hamburguesa y desplegable
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnMenu = document.getElementById('btn-menu');
-            const menuLateral = document.getElementById('menu-lateral');
-            const menuBtn = document.getElementById('menu-btn');
-            const dropdown = document.getElementById('menu-dropdown');
-
-            btnMenu.addEventListener('click', () => {
-                menuLateral.classList.toggle('active');
-            });
-
-            menuBtn.addEventListener('click', () => {
-                dropdown.classList.toggle('show');
-            });
-
-            // Cerrar el menú desplegable si se hace clic fuera de él
-            window.addEventListener('click', (event) => {
-                if (!event.target.matches('#menu-btn')) {
-                    if (dropdown.classList.contains('show')) {
-                        dropdown.classList.remove('show');
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

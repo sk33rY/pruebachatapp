@@ -1,163 +1,164 @@
-/* Estilos generales */
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-image: url('https://www.xtrafondos.com/wallpapers/resoluciones/22/perro-corriendo-en-la-playa_1920x1080_10624.jpg');
-    background-size: cover;
-    font-family: Arial, sans-serif;
-}
-
-/* Estilos del header */
-.header {
-    width: 100%;
-    height: 60px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    position: fixed;
-    top: 0;
-    left: 0;
+    background-color: #f0f4f8;
     display: flex;
+    height: 100vh;
+    justify-content: center;
     align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
 }
 
-.header .logo h1 {
+.dashboard-container {
+    display: flex;
+    width: 80%;
+    height: 90vh;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #2f3640;
+    color: white;
+    width: 250px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    color: #fbc531;
+    letter-spacing: 1.5px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 20px 0;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    display: block;
+    padding: 10px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #fbc531;
+    color: #2f3640;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: #f0f4f8;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.main-header {
+    background-color: #2f3640;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-header h2 {
     margin: 0;
     font-size: 24px;
+    letter-spacing: 1.2px;
 }
 
-.header .menu a {
-    color: white;
-    text-decoration: none;
-    padding: 15px;
-    transition: background-color 0.3s ease, border-bottom 0.3s ease;
-}
-
-.header .menu a:hover {
-    background-color: #444;
-    border-bottom: 2px solid #c7c7c7;
-}
-
-/* Estilos del menú lateral */
-.container-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 999;
-}
-
-.container-menu .cont-menu {
-    width: 250px;
-    background: #1c1c1c;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-
-#btn-menu:checked ~ .container-menu {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-}
-
-#btn-menu:checked ~ .container-menu .cont-menu {
-    transform: translateX(0);
-}
-
-.container-menu label {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    color: white;
-    cursor: pointer;
-    font-size: 24px;
-}
-
-.container-menu nav a {
-    display: block;
-    padding: 15px;
-    color: #c7c7c7;
-    text-decoration: none;
-    transition: background 0.3s ease, border-left 0.3s ease;
-}
-
-.container-menu nav a:hover {
-    background: #1f1f1f;
-    border-left: 5px solid #c7c7c7;
-}
-
-/* Estilos del formulario */
-.form-register {
-    background: rgba(36, 48, 60, 0.8);
-    padding: 20px;
-    margin: 100px auto;
-    width: 90%;
-    max-width: 500px;
+/* Form Section */
+.form-section {
+    background-color: white;
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-register h4 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
-.controls {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #1f53c5;
-    border-radius: 5px;
-    background: #2c3e50;
-    color: white;
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 10px;
     font-size: 16px;
+    color: #333;
 }
 
-.controls::placeholder {
-    color: #bdc3c7;
-}
-
-.botons {
-    width: 100%;
+.form-group input {
     padding: 12px;
-    background: #1f53c5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #fbc531;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit Button */
+.submit-btn {
+    grid-column: span 2;
+    padding: 15px;
+    background-color: #2f3640;
+    color: white;
     border: none;
     border-radius: 5px;
-    color: white;
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.botons:hover {
-    background: #0056b3;
+.submit-btn:hover {
+    background-color: #fbc531;
+    color: #2f3640;
 }
 
-.form-register p {
-    text-align: center;
-    font-size: 16px;
-}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .form {
+        grid-template-columns: 1fr;
+    }
 
-.form-register a {
-    color: #1f53c5;
-    text-decoration: none;
-}
-
-.form-register a:hover {
-    text-decoration: underline;
+    .submit-btn {
+        grid-column: span 1;
+    }
 }
