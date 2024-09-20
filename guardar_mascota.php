@@ -3,7 +3,7 @@ include('conexion.php');
 session_start();
 
 if (!isset($_SESSION['correo'])) {
-    header("Location: IniciarSesion.php");
+    header("Location: inicio.php");
     exit;
 }
 
