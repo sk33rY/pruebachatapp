@@ -1,27 +1,7 @@
 <?php
-include("conexion.php");
-session_start();
-
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['id_usuario'])) {
-    header("location: inicio.php");
-    exit();
-}
-
-// Obtener el correo y el ID de usuario de la sesión
-$user = $_SESSION['correo'];
-$id_usuario = $_SESSION['id_usuario'];
-
-// Consulta para obtener el nombre completo del usuario
-$sql = "SELECT Nombre_completo, correo FROM usuario WHERE correo='$user'";
-$resultado = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-$row = $resultado->fetch_assoc();
-
-// Verificar si se obtuvo un resultado y manejar el caso donde $row sea null
-$nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_completo']) : 'Usuario';
+include("header2.php");
+include('header.php');
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -139,46 +119,9 @@ $nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_com
 </head>
 
 <body>
-    <!-- Cabecera -->
-    <header>
-        <div class="contenedor">
-            <div class="logo">
-                <ion-icon id="btn-menu" name="menu"></ion-icon> <!-- Mueve el menú hamburguesa al lado izquierdo -->
-                <ion-icon name="ionicons ion-map"></ion-icon>
-                <span>PETLOVER</span>
-            </div>
-            <div class="menu-opciones">
-                <ul>
-                    <li>
-                        <a href="inicio.php">Home</a>
-                    </li>
-                    <li>
-                        <a href="mapa_marcadores.html">Mapa de busqueda</a>
-                    </li>
-                    <li>
-                        <a href="catalogo.php">Busca a tu mascota</a>
-                    </li>
-                    <li>
-                    <a href="pruebaregistromascota.html">Reporta tu mascota</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="controles-usuario">
-            <div class="user-container">
-                    <div class="user-icon">
-                        <ion-icon name="person-circle-outline" id="menu-btn"></ion-icon>
-                    </div>
-                    <div id="menu-dropdown" class="dropdown-content">
-                        <!-- Mostrar el nombre del usuario en el menú desplegable -->
-                        <span class="dropdown-username"><?php echo $nombre_completo; ?></span>
-                        <a href="perfil.php">Perfil</a>
-                        <a href="ajustes.php">Ajustes</a>
-                        <a href="cerrar.php">Cerrar sesión</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+<?php
+
+?>
 
     <!-- Menú lateral -->
     <nav id="menu-lateral" class="menu-lateral">

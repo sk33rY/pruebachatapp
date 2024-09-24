@@ -1,6 +1,7 @@
 <?php
-include("conexion.php");
-session_start();
+
+include("header2.php");
+include('header.php');
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['id_usuario'])) {
@@ -8,23 +9,31 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 
-// Obtener el correo y el ID de usuario de la sesión
-$user = $_SESSION['correo'];
-$id_usuario = $_SESSION['id_usuario'];
+// Verifica si se ha recibido un mascota_id
+$mascota_id = isset($_GET['mascota_id']) ? $_GET['mascota_id'] : null;
 
-// Consulta para obtener el nombre completo del usuario
-$sql = "SELECT Nombre_completo, correo FROM usuario WHERE correo='$user'";
-$resultado = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-$row = $resultado->fetch_assoc();
+if ($mascota_id) {
+    // Preparar la consulta para un caso específico
+    $sql = $conn->prepare("
+        SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
+        m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
+        FROM mascotas m
+        JOIN usuario u ON m.usuario_id = u.id_usuario
+        WHERE m.id_mascota = ?
+    ");
+    $sql->bind_param("i", $mascota_id); // 'i' para integer
+} else {
+    // Preparar la consulta para todos los registros
+    $sql = $conn->prepare("
+        SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
+        m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
+        FROM mascotas m
+        JOIN usuario u ON m.usuario_id = u.id_usuario
+    ");
+}
 
-// Consulta para obtener las mascotas del catálogo
-$sql_mascotas = "
-    SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
-    m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
-    FROM mascotas m
-    JOIN usuario u ON m.usuario_id = u.id_usuario
-";
-$result_mascotas = $conn->query($sql_mascotas);
+$sql->execute();
+$result = $sql->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +43,7 @@ $result_mascotas = $conn->query($sql_mascotas);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PETLOVER - Catálogo</title>
-    <link rel="stylesheet" href="estilos/catalogo.css">
+    <link rel="stylesheet" href="estilos/catalogo2.css">
     <style>
         /* Estilos para el botón del menú de hamburguesa */
         #btn-menu {
@@ -87,7 +96,7 @@ $result_mascotas = $conn->query($sql_mascotas);
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
-            margin-top: 50px;
+            margin-top: 10px;
         }
 
         .mascota {
@@ -107,50 +116,14 @@ $result_mascotas = $conn->query($sql_mascotas);
             border-radius: 8px;
             margin-bottom: 10px;
         }
+        .titulo-principal {
+    text-align: center;
+}
+
     </style>
 </head>
 
 <body>
-    <!-- Cabecera -->
-    <header>
-        <div class="contenedor">
-            <div class="logo">
-                <ion-icon name="ionicons ion-map"></ion-icon>
-                <span>PETLOVER</span>
-                <ion-icon id="btn-menu" name="menu"></ion-icon>
-            </div>
-            <div class="menu-opciones">
-                <ul>
-                    <li>
-                        <a href="inicio.php">Home</a>
-                    </li>
-                    <li>
-                        <a href="mapa_marcadores.html">Mapa de búsqueda</a>
-                    </li>
-                    <li>
-                        <a href="catalogo.php">Busca a tu mascota</a>
-                    </li>
-                    <li>
-                        <a href="">¿Quienes somos?</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="controles-usuario">
-                <div class="user-container">
-                    <span class="user-name"><?php echo utf8_decode($row['Nombre_completo']); ?></span>
-                    <div class="user-icon">
-                        <ion-icon name="person-circle-outline" id="menu-btn"></ion-icon>
-                    </div>
-                    <div id="menu-dropdown" class="dropdown-content">
-                        <a href="perfil.php">Perfil</a>
-                        <a href="ajustes.php">Ajustes</a>
-                        <a href="cerrar.php">Cerrar sesión</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <!-- Menú lateral -->
     <nav id="menu-lateral" class="menu-lateral">
         <ul>
@@ -164,11 +137,11 @@ $result_mascotas = $conn->query($sql_mascotas);
     <main>
         <section class="seccion-1">
             <div class="texto">
-                <h1 class="titulo-principal">Catálogo de Mascotas</h1>
+                <h1 class="titulo-principal">Mascotas reportadas</h1>
                 <div class="catalogo">
                     <?php
-                    if ($result_mascotas->num_rows > 0) {
-                        while ($row_mascota = $result_mascotas->fetch_assoc()) {
+                    if ($result->num_rows > 0) {
+                        while ($row_mascota = $result->fetch_assoc()) {
                             echo '<div class="mascota">';
                             echo '<h3>' . htmlspecialchars($row_mascota["nombre"]) . '</h3>';
                             echo '<p><strong>Raza:</strong> ' . htmlspecialchars($row_mascota["raza"]) . '</p>';
@@ -182,6 +155,18 @@ $result_mascotas = $conn->query($sql_mascotas);
                             } else {
                                 echo '<p>Sin imagen disponible</p>';
                             }
+                             // Botón de buscar coincidencias
+                            echo '<form action="buscar_coincidencias.php" method="post" style="margin-bottom: 15px;">';
+                            echo '<input type="hidden" name="id_mascota" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">';
+                            echo '<button type="submit" class="btn btn-primary mt-3">Buscar coincidencias</button>';
+                            echo '</form>';
+                
+                            // Botón para iniciar el chat
+                            echo '<form action="iniciar_chat.php" method="post">';
+                            echo '<input type="hidden" name="reporte_usuario_id" value="' . htmlspecialchars($row_mascota["usuario_id"]) . '">';
+                            echo '<input type="hidden" name="reporte_id" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">'; // Agregar el ID del reporte
+                            echo '<button type="submit" class="btn btn-secondary mt-3">Chatear</button>';
+                            echo '</form>';
                             echo '</div>';
                         }
                     } else {

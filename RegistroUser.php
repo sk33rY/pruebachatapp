@@ -9,9 +9,6 @@ $repassword = $_POST['rePassword'];
 $reqlen = strlen($nombres) * strlen ($correo) * strlen ($telefono) * strlen ($fecha_nacimiento)* strlen ($direccion_residencia)* strlen ($password) * strlen ($repassword);
 
 
-
-
-
 if ($reqlen > 0){
     if ($password === $repassword) {
         $mysql=new mysqli("localhost","root","","mydb");
