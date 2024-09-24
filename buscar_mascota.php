@@ -74,7 +74,7 @@ $result = $conn->query($sql);
                 echo '</form>';
 
                 // Botón para iniciar el chat
-                echo '<form action="iniciar_chat.php" method="post">';
+                echo '<form action="chat.php" method="post">';
                 echo '<input type="hidden" name="reporte_usuario_id" value="' . htmlspecialchars($row["usuario_id"]) . '">';
                 echo '<input type="hidden" name="reporte_id" value="' . htmlspecialchars($row["id_mascota"]) . '">';
                 echo '<button type="submit" class="btn btn-secondary mt-3">Chatear</button>';
