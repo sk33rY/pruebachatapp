@@ -2,10 +2,9 @@ let currentStep = 0;
 const steps = document.querySelectorAll('.step');
 const nextBtns = document.querySelectorAll('#nextBtn');
 const prevBtns = document.querySelectorAll('#prevBtn');
-const razaSelect = document.getElementById('raza');
-const tipoAnimalSelect = document.getElementById('tipo_animal');
-let map; // Almacena el objeto del mapa
-let mapInitialized = false;  // Bandera para saber si el mapa ya se ha inicializado
+
+// Variable para controlar si el mapa ya ha sido inicializado
+let mapInitialized = false;
 
 // Mostrar el paso inicial
 function showStep(n) {
@@ -16,14 +15,10 @@ function showStep(n) {
         }
     });
 
-    // Inicializar o redibujar el mapa cuando se llega al paso 9
-    if (n === 8) {
-        if (!mapInitialized) {
-            initMap(); // Solo inicializa el mapa una vez
-            mapInitialized = true;
-        } else {
-            google.maps.event.trigger(map, 'resize'); // Forzar redibujo si ya está inicializado
-        }
+    // Inicializar el mapa si estamos en el paso correspondiente y no se ha inicializado antes
+    if (n === 6 && !mapInitialized) {
+        initMap();
+        mapInitialized = true;
     }
 }
 
@@ -47,15 +42,42 @@ prevBtns.forEach(btn => {
     });
 });
 
-// Función para inicializar el mapa
+// Funciones relacionadas con el mapa
 function initMap() {
-    map = new google.maps.Map(document.getElementById('mapa'), {
+    var map = new google.maps.Map(document.getElementById('mapa'), {
         center: {lat: 4.7352573, lng: -74.0182495},
         zoom: 13
     });
 
-    let geocoder = new google.maps.Geocoder();
-    let marker;
+    var geocoder = new google.maps.Geocoder();
+    var marker;
+
+    // Cargar los marcadores desde la base de datos
+    fetch('cargar_mascota.php')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(mascota => {
+                var marker = new google.maps.Marker({
+                    position: {lat: parseFloat(mascota.lat), lng: parseFloat(mascota.lng)},
+                    map: map,
+                    title: mascota.nombre,
+                    icon: {
+                        url: "Imagenes/icono3.png", // Ruta de la imagen en tu proyecto
+                        scaledSize: new google.maps.Size(32, 32), // Ajusta el tamaño del icono
+                        origin: new google.maps.Point(0, 0), // Origen de la imagen
+                        anchor: new google.maps.Point(16, 32) // Punto de anclaje (mitad del ancho y toda la altura)
+                    }
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<h3>${mascota.nombre}</h3><p>${mascota.descripcion}</p><p>${mascota.tipo}</p>`
+                });
+
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+            });
+        });
 
     document.getElementById('geocode-btn').addEventListener('click', function() {
         geocodeAddress(geocoder, map);
@@ -66,8 +88,8 @@ function initMap() {
     });
 
     map.addListener('click', function(event) {
-        let lat = event.latLng.lat();
-        let lng = event.latLng.lng();
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
 
         document.getElementById('lat').value = lat;
         document.getElementById('lng').value = lng;
@@ -84,11 +106,11 @@ function initMap() {
 }
 
 function geocodeAddress(geocoder, map) {
-    let address = document.getElementById('address').value;
+    var address = document.getElementById('address').value;
     geocoder.geocode({'address': address}, function(results, status) {
         if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
-            let marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
             });
@@ -103,12 +125,12 @@ function geocodeAddress(geocoder, map) {
 function obtenerUbicacion(map) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
-            let lat = position.coords.latitude;
-            let lng = position.coords.longitude;
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
             document.getElementById('lat').value = lat;
             document.getElementById('lng').value = lng;
 
-            let marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 position: {lat: lat, lng: lng},
                 map: map
             });
@@ -137,7 +159,5 @@ function obtenerUbicacion(map) {
     }
 }
 
-// Mostrar el primer paso al cargar
-document.addEventListener("DOMContentLoaded", function() {
-    showStep(currentStep);
-});
+// Mostrar el primer paso al cargar la página
+showStep(currentStep);
