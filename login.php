@@ -31,7 +31,7 @@ if (isset($_POST['login'])) {
     // Verificar si el usuario y contraseña coinciden
     if (($usu != $correo) || ($clav != $contrasenia)) {
         echo "<script>alert('Usuario o clave incorrecta');</script>";
-        require('iniciose.php');
+        require('iniciose.html');
         exit();
     }
 
