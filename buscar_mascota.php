@@ -1,4 +1,5 @@
 <?php
+
 include('conexion.php');
 
 // Obtener el nombre de la mascota desde el formulario

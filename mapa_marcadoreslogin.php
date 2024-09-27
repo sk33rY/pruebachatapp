@@ -1,52 +1,22 @@
+<?php
+include("header_login.php");
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PETLOVER</title>
     <link rel="stylesheet" href="estilos/mapa_marcadores.css">
-    <!-- Incluir Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5p7pnKq5ZgMhtuARruzRY0vGWdoMhK4M"></script>
-    <style>
-        #mapa {
-            height: 500px;
-            width: 100%;
-            border-radius: 0.375rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-    </style>
 </head>
+
 <body>
-    <header>
-        <div class="contenedor">
-            <div class="logo">
-                <ion-icon name="ionicons ion-map"></ion-icon>
-                <span>PETLOVER</span>
-            </div>
-            <div class="menu-opciones">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="mapa_marcadores.html">Mapa de busqueda</a></li>
-                    <li><a href="catalogo.php">Busca a tu mascota</a></li>
-                    <li><a href="">¿Quienes somos?</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-    <main>
-        <section class="seccion-1">
-            <section class="mapa">
-                <section class="text-center mb-4">
-                    <h2>Mapa de Mascotas Registradas</h2>
-                </section>
-                <div id="mapa"></div>
-            </section>
-        </section>
-    </main>
+    <!-- Menú lateral -->
+
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="js/scriptindex.js"></script>
     <!-- Archivo JS para cargar los marcadores en el mapa -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {

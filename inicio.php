@@ -1,11 +1,8 @@
 <?php
-include("header2.php");
-include('header.php');
+include("header_login.php");
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,18 +116,15 @@ include('header.php');
 </head>
 
 <body>
-<?php
-
-?>
-
     <!-- Menú lateral -->
     <nav id="menu-lateral" class="menu-lateral">
         <ul>
             <li><a href="indexfinal.html">Inicio</a></li>
-            <li><a href="mapa_marcadoreslogin.html">Mapa de búsqueda</a></li>
+            <li><a href="mapa_marcadoreslogin.php">Mapa de búsqueda</a></li>
             <li><a href="catalogo.php">Busca a tu mascota</a></li>
-            <li><a href="pruebaregistromascota.html">Registra tu mascota</a></li>
+            <li><a href="registro_mascota.php">Registra tu mascota</a></li>
             <li><a href="catalogo_adopciones.php">Adopciones</a></li>
+            <li><a href="bandeja_mensajes.php">Mis chats</a></li>
         </ul>
     </nav>
 
@@ -186,7 +180,6 @@ include('header.php');
     <!-- Scripts de Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="js/inicio.js"></script>
 </body>
 
 </html>

@@ -1,48 +1,51 @@
 <?php
-$nombres = $_POST['Nombres'];
-$correo = $_POST['correo'];
-$telefono = $_POST['telefono'];
-$fecha_nacimiento = $_POST['fecha_nacimiento'];
-$direccion_residencia = $_POST['direccion_residencia'];
-$password = $_POST['password'];
-$repassword = $_POST['rePassword'];
-$reqlen = strlen($nombres) * strlen ($correo) * strlen ($telefono) * strlen ($fecha_nacimiento)* strlen ($direccion_residencia)* strlen ($password) * strlen ($repassword);
+// Mostrar errores de PHP
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+header('Content-Type: application/json');
 
-if ($reqlen > 0){
-    if ($password === $repassword) {
-        $mysql=new mysqli("localhost","root","","mydb");
-         $password = md5($password);
-         $nombres= mysqli_real_escape_string($mysql,$nombres);
-         $telefono= mysqli_real_escape_string($mysql,$telefono);
-         $correo= mysqli_real_escape_string($mysql,$correo);         
-         $fecha_nacimiento= mysqli_real_escape_string($mysql,$fecha_nacimiento);
-         $direccion_residencia= mysqli_real_escape_string($mysql,$direccion_residencia);
-         $password= mysqli_real_escape_string($mysql,$password);
-         $resultado= mysqli_query($mysql, 'INSERT INTO usuario
-          (Nombre_completo,	numero_telefono, correo, fecha_nacimiento,	direccion_residencia,	contrasenia) VALUES ("' .$nombres . '", "' . $telefono . '","' .$correo . '", "' .$fecha_nacimiento. '", "' .$direccion_residencia. '", "' . $password . '")');
-            	
-         if($resultado){
-          
-            echo "<script>alert('usuario creado correctamente');</script>";
-            require('inicio.php');
-     
-      
-         }else
-         echo(' error creando usuario');
-         
-         mysqli_close($mysql);
-         
-       
+$nombres = $_POST['Nombres'] ?? '';
+$correo = $_POST['correo'] ?? '';
+$telefono = $_POST['telefono'] ?? '';
+$fecha_nacimiento = $_POST['fecha_nacimiento'] ?? '';
+$direccion_residencia = $_POST['direccion_residencia'] ?? '';
+$password = $_POST['password'] ?? '';
+$repassword = $_POST['rePassword'] ?? '';
 
-    } else {
-        echo " Por favor, introduzca dos contraseñas identicas.";
-    }
-
-}else {
-    echo "Por favor, rellene todos los campos requeridos.";
+if (empty($nombres) || empty($correo) || empty($telefono) || empty($fecha_nacimiento) || empty($direccion_residencia) || empty($password) || empty($repassword)) {
+    echo json_encode(['status' => 'error', 'message' => 'Por favor, rellene todos los campos requeridos.']);
+    exit;
 }
 
+if ($password !== $repassword) {
+    echo json_encode(['status' => 'error', 'message' => 'Por favor, introduzca dos contraseñas idénticas.']);
+    exit;
+}
 
+$mysql = new mysqli("localhost", "root", "", "mydb");
 
+if ($mysql->connect_error) {
+    echo json_encode(['status' => 'error', 'message' => 'Error de conexión a la base de datos.']);
+    exit;
+}
+
+$password_hashed = md5($password);
+$nombres = mysqli_real_escape_string($mysql, $nombres);
+$telefono = mysqli_real_escape_string($mysql, $telefono);
+$correo = mysqli_real_escape_string($mysql, $correo);
+$fecha_nacimiento = mysqli_real_escape_string($mysql, $fecha_nacimiento);
+$direccion_residencia = mysqli_real_escape_string($mysql, $direccion_residencia);
+$password_hashed = mysqli_real_escape_string($mysql, $password_hashed);
+
+$query = "INSERT INTO usuario (Nombre_completo, numero_telefono, correo, fecha_nacimiento, direccion_residencia, contrasenia) VALUES ('$nombres', '$telefono', '$correo', '$fecha_nacimiento', '$direccion_residencia', '$password_hashed')";
+
+if ($mysql->query($query) === TRUE) {
+    echo json_encode(['status' => 'success', 'message' => 'Usuario creado correctamente']);
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'Error creando usuario: ' . $mysql->error]);
+}
+
+$mysql->close();
 ?>

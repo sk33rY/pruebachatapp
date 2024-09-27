@@ -1,5 +1,6 @@
 <?php
 include('conexion.php');
+include_once('python_integration.php'); // Asegúrate de incluir el archivo para manejar la integración con Python
 
 // Obtener el ID del reporte desde el formulario
 $id = $_POST['id_mascota'];
@@ -33,130 +34,172 @@ if ($result_reporte->num_rows > 0) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $resultados = [];
+    $reportes_encontrados = [];
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            // Variables de coincidencia y porcentaje
-            $coincidencias = [];
-            $similaridad = 0;
-
-            // Comparación de tamaño
-            similar_text($tamano, $row['tamano'], $tamano_sim);
-            if ($tamano_sim > 0) {
-                $coincidencias[] = "Tamaño (" . round($tamano_sim, 2) . "%)";
-                $similaridad += ($tamano_sim / 100) * (100 / 4); // Proporcional al porcentaje de nombre
-            }
-
-            // Comparación de color
-              similar_text($color, $row['color'], $color_sim);
-              if ($color_sim > 0) {
-                  $coincidencias[] = "Color (" . round($color_sim, 2) . "%)";
-                  $similaridad += ($color_sim / 100) * (100 / 4); // Proporcional al porcentaje de nombre
-              }
-
-            // Comparar nombres
-            similar_text($nombre, $row['nombre'], $nombre_sim);
-            if ($nombre_sim > 0) {
-                $coincidencias[] = "Nombre (" . round($nombre_sim, 2) . "%)";
-                $similaridad += ($nombre_sim / 100) * (100 / 4); // Proporcional al porcentaje de nombre
-            }
-
-            // Comparar descripciones
-            similar_text($descripcion, $row['descripcion'], $desc_sim);
-            if ($desc_sim > 0) {
-                $coincidencias[] = "Descripción (" . round($desc_sim, 2) . "%)";
-                $similaridad += ($desc_sim / 100) * (100 / 4); // Proporcional al porcentaje de descripción
-            }
-
-            // Calcular distancia geográfica
-            $distance = haversineGreatCircleDistance($lat, $lng, $row['lat'], $row['lng']);
-            if ($distance <= 5) { // Ajustar a 5 km de rango
-                $coincidencias[] = "Proximidad geográfica (" . round((5 - $distance) / 5 * 100, 2) . "%)";
-                $similaridad += ((5 - $distance) / 5) * 25; // Proporcional al rango de proximidad
-            }
-
-            // Solo añadir resultados si hay coincidencias
-            if (!empty($coincidencias)) {
-                $resultados[] = ['data' => $row, 'similaridad' => $similaridad, 'coincidencias' => $coincidencias];
-            }
+            $reportes_encontrados[] = $row;
         }
 
-        // Ordenar resultados por mayor similitud
-        usort($resultados, function ($a, $b) {
-            return $b['similaridad'] <=> $a['similaridad'];
-        });
+        // Llamar a la función de Python para calcular las coincidencias
+        $resultados = calcular_similitudes_python($reporte, $reportes_encontrados);
 
-        // Mostrar resultados ordenados
-        ?>
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Catálogo de Mascotas</title>
-            <!-- Incluir Bootstrap -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            <style>
-                .catalogo {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 20px;
-                    justify-content: center;
-                }
-                .mascota {
-                    border: 1px solid #ccc;
-                    padding: 20px;
-                    width: 250px;
-                    text-align: center;
-                    border-radius: 8px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                }
-                .mascota img {
-                    width: 100%;
-                    height: 150px;
-                    object-fit: cover;
-                    border-radius: 8px;
-                    margin-bottom: 10px;
-                }
-                .coincidencias {
-                    text-align: left;
-                }
-            </style>
-        </head>
-        <body class="bg-light">
-            <div class="container mt-5">
-                <h1 class="text-center mb-4">Resultados de la búsqueda</h1>
+        if (is_array($resultados)) {
+            usort($resultados, function ($a, $b) {
+                return $b['similaridad'] <=> $a['similaridad'];
+            });
+
+            // Mostrar resultados ordenados
+            ?>
+            <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Coincidencias</title>
+    <link rel="stylesheet" href="estilos/catalogo2.css">
+    <style>
+        /* Adaptaciones específicas para Buscar Coincidencias */
+        .catalogo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .mascota {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            position: relative;
+        }
+        .mascota h3 {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 10px 0;
+            color: rgb(218, 127, 61);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .mascota img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .mascota p {
+            margin: 10px 0;
+            color: #333;
+        }
+        .coincidencias {
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ddd;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            margin-top: 10px;
+        }
+        .coincidencias p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #555;
+        }
+        .coincidencias p span {
+            font-weight: bold;
+        }
+        .similaridad-total {
+            font-size: 1.2em;
+            margin: 15px 0;
+            text-align: center;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .coincidencias h4 {
+            font-size: 1.05em;
+            text-align: center;
+            color: #555;
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .titulo-principal {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <?php include('header2.php'); ?>
+    <?php include('header.php'); ?>
+
+    <main>
+        <section class="seccion-1">
+            <div class="texto">
+                <h1 class="titulo-principal">Reporte de coincidencias</h1>
                 <div class="catalogo">
-                    <?php
-                    foreach ($resultados as $resultado) {
-                        $row = $resultado['data'];
-                        echo '<div class="mascota bg-white">';
-                        echo '<h3>' . $row["nombre"] . '</h3>';
-                        echo '<p><strong>Raza:</strong> ' . $row["raza"] . '</p>';
-                        echo '<p><strong>Tamaño:</strong> ' . $row["tamano"] . '</p>';
-                        echo '<p><strong>Color:</strong> ' . $row["color"] . '</p>';
-                        echo '<p><strong>Descripción:</strong> ' . $row["descripcion"] . '</p>';
-                        echo '<p><strong>Estado:</strong> ' . $row["tipo"] . '</p>';
-                        if ($row["imagen"]) {
-                            echo '<img src="data:image/jpeg;base64,' . $row["imagen"] . '" alt="Imagen de ' . $row["nombre"] . '">';
-                        } else {
-                            echo '<p>Sin imagen disponible</p>';
-                        }
-                        echo '<div class="coincidencias">';
-                        foreach ($resultado['coincidencias'] as $coincidencia) {
-                            echo '<p>' . $coincidencia . '</p>';
-                        }
-                        echo '</div>';
-                        echo '<p>Similaridad Total: ' . round($resultado['similaridad'], 2) . '%</p>';
-                        echo '</div>';
-                    }
-                    ?>
-                </div>
+            <!-- Aquí va el código PHP para mostrar los resultados de coincidencias -->
+            <?php
+            // Este es un ejemplo de cómo mostrar cada resultado
+            foreach ($resultados as $resultado) {
+                $row = $resultado['data'];
+                echo '<div class="mascota">';
+                echo '<h3>' . htmlspecialchars($row["nombre"]) . '</h3>';
+                if ($row["imagen"]) {
+                    echo '<img src="data:image/jpeg;base64,' . htmlspecialchars($row["imagen"]) . '" alt="Imagen de ' . htmlspecialchars($row["nombre"]) . '">';
+                } else {
+                    echo '<img src="https://via.placeholder.com/300x200" alt="Sin imagen disponible">';
+                }
+                echo '<p><strong>Raza:</strong> ' . htmlspecialchars($row["raza"]) . '</p>';
+                echo '<p><strong>Tamaño:</strong> ' . htmlspecialchars($row["tamano"]) . '</p>';
+                echo '<p><strong>Color:</strong> ' . htmlspecialchars($row["color"]) . '</p>';
+                echo '<p><strong>Descripción:</strong> ' . htmlspecialchars($row["descripcion"]) . '</p>';
+                echo '<p><strong>Estado:</strong> ' . htmlspecialchars($row["tipo"]) . '</p>';
+
+                echo '<div class="coincidencias">';
+                echo '<h4> Resultados </h4>';
+                foreach ($resultado['coincidencias'] as $coincidencia) {
+                    echo '<p>' . htmlspecialchars($coincidencia) . '</p>';
+                }
+                echo '</div>';
+                
+                echo '<p class="similaridad-total">Similaridad Total: ' . round($resultado['similaridad'], 2) . '%</p>';
+                echo '</div>';
+            }
+            ?>
+
+</div>
             </div>
-        </body>
-        </html>
-        <?php
+        </section>
+    </main>
+     
+</body>
+</html>
+
+            <?php
+        } else {
+            echo '<p>No se encontraron coincidencias o hubo un error en el procesamiento.</p>';
+        }
     } else {
         echo '<p>No se encontraron coincidencias.</p>';
     }
@@ -168,23 +211,4 @@ if ($result_reporte->num_rows > 0) {
 
 $stmt_reporte->close();
 $conn->close();
-
-// Función para calcular la distancia geográfica usando la fórmula de Haversine
-function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
-{
-    $latFrom = deg2rad($latitudeFrom);
-    $lonFrom = deg2rad($longitudeFrom);
-    $latTo = deg2rad($latitudeTo);
-    $lonTo = deg2rad($longitudeTo);
-
-    $latDelta = $latTo - $latFrom;
-    $lonDelta = $lonTo - $lonFrom;
-
-    $a = sin($latDelta / 2) * sin($latDelta / 2) +
-        cos($latFrom) * cos($latTo) *
-        sin($lonDelta / 2) * sin($lonDelta / 2);
-    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-    return $earthRadius * $c;
-}
 ?>

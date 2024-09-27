@@ -1,3 +1,6 @@
+<?php
+include("header.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +32,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="mapa_marcadores.html">Mapa de busqueda</a></li>
                     <li><a href="catalogo.php">Busca a tu mascota</a></li>
-                    <li><a href="">¿Quienes somos?</a></li>
+                    <li><a href="registro_mascota.php">Registra tu mascota</a></li>
                 </ul>
             </div>
             <div class="controles-usuario">
@@ -106,8 +109,6 @@
                         </button>
                     </div>
                 `;
-                
-                
                 
                     
                     function iniciarChat(receptorId) {
