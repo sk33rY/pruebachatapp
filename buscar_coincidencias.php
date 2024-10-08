@@ -150,9 +150,6 @@ if ($result_reporte->num_rows > 0) {
     </style>
 </head>
 <body>
-    <?php include('header2.php'); ?>
-    <?php include('header.php'); ?>
-
     <main>
         <section class="seccion-1">
             <div class="texto">
