@@ -1,6 +1,9 @@
 <?php
 include("conexion.php");
-session_start();
+// Verificar si la sesión ya está activa antes de iniciar una nueva
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['id_usuario'])) {
     // Redirigir al inicio de sesión si no está logueado
@@ -29,7 +32,7 @@ $nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_com
                 <li><a href="mapa_marcadoreslogin.html">Mapa de búsqueda</a></li>
                 <li><a href="catalogo.php">Busca a tu mascota</a></li>
                 <li><a href="registro_mascota.php">Reporta tu mascota</a></li>
-                <li><a href="mis_reportes.php">Mis reportes</a></li>
+                <li><a href="buzon_notificaciones.php">Notificaciones</a></li>
                 <li><a href="bandeja_mensajes.php">Mis chats</a></li>
             </ul>
         </div>

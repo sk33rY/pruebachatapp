@@ -8,20 +8,6 @@ if (isset($_SESSION['id_usuario'])) {
     include("header.php");
 }
 
-// Verifica si se ha recibido un mascota_id
-$mascota_id = isset($_GET['mascota_id']) ? $_GET['mascota_id'] : null;
-
-if ($mascota_id) {
-    // Preparar la consulta para un caso específico
-    $sql = $conn->prepare("
-        SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
-        m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
-        FROM mascotas m
-        JOIN usuario u ON m.usuario_id = u.id_usuario
-        WHERE m.id_mascota = ?
-    ");
-    $sql->bind_param("i", $mascota_id); // 'i' para integer
-} else {
     // Preparar la consulta para todos los registros
     $sql = $conn->prepare("
         SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
@@ -29,7 +15,6 @@ if ($mascota_id) {
         FROM mascotas m
         JOIN usuario u ON m.usuario_id = u.id_usuario
     ");
-}
 
 $sql->execute();
 $result = $sql->get_result();
@@ -41,7 +26,7 @@ $result = $sql->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PETLOVER - Catálogo</title>
+    <title>Mis reportes</title>
     <link rel="stylesheet" href="estilos/catalogo2.css">
     <style>
         /* Estilos para el botón del menú de hamburguesa */
@@ -95,7 +80,7 @@ $result = $sql->get_result();
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
-            margin-top: 10px;
+            margin-top: 30px;
         }
 
         .mascota {
@@ -123,20 +108,12 @@ $result = $sql->get_result();
 </head>
 
 <body>
-    <!-- Menú lateral -->
-    <nav id="menu-lateral" class="menu-lateral">
-        <ul>
-            <li><a href="indexfinal.html">Inicio</a></li>
-            <li><a href="mapa_marcadoreslogin.html">Mapa de búsqueda</a></li>
-            <li><a href="catalogo.php">Busca a tu mascota</a></li>
-        </ul>
-    </nav>
 
     <!-- Sección de catálogo -->
     <main>
         <section class="seccion-1">
             <div class="texto">
-                <h1 class="titulo-principal">Mascotas reportadas</h1>
+                <h1 class="titulo-principal">Mis reportes</h1>
                 <div class="catalogo">
                     <?php
                     if ($result->num_rows > 0) {
@@ -159,14 +136,7 @@ $result = $sql->get_result();
                             echo '<form action="buscar_coincidencias.php" method="post" style="margin-bottom: 15px;">';
                             echo '<input type="hidden" name="id_mascota" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">';
                             echo '<button type="submit" class="btn btn-primary mt-3">Buscar coincidencias</button>';
-                            echo '</form>';
-                
-                            // Botón para iniciar el chat
-                            echo '<form action="iniciar_chat.php" method="post">';
-                            echo '<input type="hidden" name="reporte_usuario_id" value="' . htmlspecialchars($row_mascota["usuario_id"]) . '">';
-                            echo '<input type="hidden" name="reporte_id" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">'; // Agregar el ID del reporte
-                            echo '<button type="submit" class="btn btn-secondary mt-3">Chatear</button>';
-                            echo '</form>';
+                            echo '</form>';                        
                             echo '</div>';
                         }
                     } else {

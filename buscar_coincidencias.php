@@ -181,7 +181,9 @@ if ($result_reporte->num_rows > 0) {
                 echo '</div>';
                 
                 echo '<p class="similaridad-total">Similaridad Total: ' . round($resultado['similaridad'], 2) . '%</p>';
+    
                 echo '</div>';
+            
             }
             ?>
 
