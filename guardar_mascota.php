@@ -96,7 +96,7 @@ if ($conn->query($sql) === TRUE) {
     $coincidencias_encontradas = false;
     foreach ($resultados as $resultado) {
         // Verificar si la clave "distancia_km" está definida
-        if (isset($resultado['distancia_km']) && $resultado['similaridad'] >= 70 && $resultado['distancia_km'] <= 5) {
+        if (isset($resultado['distancia_km']) && $resultado['similaridad'] >= 70 && $resultado['distancia_km'] <= 10) {
             $coincidencias_encontradas = true;
 
             // Guardar notificación para ambos usuarios
@@ -128,10 +128,24 @@ $conn->close();
 // Función para guardar una notificación en la base de datos
 function guardar_notificacion($user_id, $reporte_usuario_id, $reporte_coincidencia_id) {
     global $conn;
-    $mensaje = "Se ha encontrado una coincidencia para tu reporte";
-    $sql = "INSERT INTO notificaciones (user_id, reporte_usuario_id, reporte_coincidencia_id, mensaje, leido) VALUES (?, ?, ?, ?, 0)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iiis", $user_id, $reporte_usuario_id, $reporte_coincidencia_id, $mensaje);
-    $stmt->execute();
+    $mensaje = "Se ha encontrado una coincidencia para tu reporte.";
+
+    // Verificar si ya existe una notificación entre estos dos reportes
+    $sql_check = "SELECT COUNT(*) as count FROM notificaciones 
+                  WHERE user_id = ? AND reporte_usuario_id = ? AND reporte_coincidencia_id = ?";
+    $stmt_check = $conn->prepare($sql_check);
+    $stmt_check->bind_param("iii", $user_id, $reporte_usuario_id, $reporte_coincidencia_id);
+    $stmt_check->execute();
+    $result_check = $stmt_check->get_result()->fetch_assoc();
+
+    // Si no existe una notificación previa, la creamos
+    if ($result_check['count'] == 0) {
+        $sql = "INSERT INTO notificaciones (user_id, reporte_usuario_id, reporte_coincidencia_id, mensaje, leido) 
+                VALUES (?, ?, ?, ?, 0)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iiis", $user_id, $reporte_usuario_id, $reporte_coincidencia_id, $mensaje);
+        $stmt->execute();
+    }
 }
+
 ?>

@@ -143,6 +143,24 @@ $result = $sql->get_result();
                         echo '<p><strong>Sexo:</strong> ' . htmlspecialchars($row_mascota["sexo"]) . '</p>';
                         echo '<p><strong>Descripción:</strong> ' . htmlspecialchars($row_mascota["descripcion"]) . '</p>';
                         echo '<p><strong>Reportado por:</strong> ' . htmlspecialchars($row_mascota["nombre_usuario"]) . '</p>';
+                        // Botón de buscar coincidencias
+                        echo '<form action="buscar_coincidencias.php" method="post" style="margin-bottom: 15px;">';
+                        echo '<input type="hidden" name="id_mascota" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">';
+                        echo '<button type="submit" class="btn btn-primary mt-3">Buscar coincidencias</button>';
+                        echo '</form>';
+                        // Botón para iniciar el chat
+                          // Verificar si el usuario actual es el reportante
+                          if ($_SESSION['id_usuario'] != $row_mascota['usuario_id']) {
+                            // Botón para iniciar el chat
+                            echo '<form action="iniciar_chat.php" method="post">';
+                            echo '<input type="hidden" name="reporte_usuario_id" value="' . htmlspecialchars($row_mascota["usuario_id"]) . '">';
+                            echo '<input type="hidden" name="reporte_id" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">'; // Agregar el ID del reporte
+                            echo '<button type="submit" class="btn btn-secondary mt-3">Chat con el reportante</button>';
+                            echo '</form>';
+                        } else {
+                            // Mostrar un popup indicando que no puede iniciar un chat consigo mismo
+                            echo '<button type="button" class="btn btn-secondary mt-3" onclick="mostrarPopup()">No puedes chatear contigo mismo</button>';
+                        }
                         echo '</div>';
                         echo '</div>';
                         echo '</div>';
@@ -166,6 +184,10 @@ $result = $sql->get_result();
         // Función para cerrar el modal
         function closeModal(id) {
             document.getElementById('modal-' + id).style.display = 'none';
+        }
+          // Función para mostrar el popup si el usuario intenta chatear consigo mismo
+          function mostrarPopup() {
+            alert('El reporte seleccionado ha sido creado por ti, no puedes iniciar un chat contigo mismo.');
         }
 
         // Función para cargar las razas según el tipo de animal y gestionar la selección de botones
