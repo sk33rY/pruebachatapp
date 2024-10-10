@@ -34,6 +34,7 @@ $nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_com
                 <li><a href="registro_mascota.php">Reporta tu mascota</a></li>
                 <li><a href="buzon_notificaciones.php">Notificaciones</a></li>
                 <li><a href="bandeja_mensajes.php">Mis chats</a></li>
+                <li><a href="mis_reportes.php">Mis reportes</a></li>
             </ul>
         </div>
         <div class="controles-usuario">

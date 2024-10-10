@@ -28,8 +28,8 @@ def calcular_similitud(mascota_perdida, mascota_encontrada):
     peso_raza = 0.2
     peso_tamano = 0.2
     peso_color = 0.2
-    peso_descripcion = 0.3
-    peso_ubicacion = 0.1
+    peso_descripcion = 0.2
+    peso_ubicacion = 0.2
 
     similitud_raza = 100 if mascota_perdida['raza'] == mascota_encontrada['raza'] else 0
     similitud_tamano = 100 if mascota_perdida['tamano'] == mascota_encontrada['tamano'] else 0
