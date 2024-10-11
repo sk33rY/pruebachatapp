@@ -58,6 +58,111 @@ $result = $sql->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PETLOVER Catalogo</title>
     <link rel="stylesheet" href="estilos/catalogo2.css">
+    <style>
+         /* Estilos para el botón del menú de hamburguesa */
+         #btn-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-principal);
+            margin-right: 10px;
+        }
+
+        /* Menú lateral */
+        .menu-lateral {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: #fff;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+
+        .menu-lateral ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-lateral ul li {
+            padding: 15px;
+            border-bottom: 1px solid #444;
+        }
+
+        .menu-lateral ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Mostrar menú cuando está activo */
+        .menu-lateral.active {
+            transform: translateX(0);
+        }
+
+        /* Menú desplegable */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--background-color);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--color-texto);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+        /* Estilo del nombre dentro del menú desplegable */
+        .dropdown-username {
+            display: block;
+            padding: 12px 16px;
+            font-weight: bold;
+            color: var(--color-texto);
+            border-bottom: 1px solid var(--color-principal); /* Línea separadora */
+            background-color: var(--background-color);
+            text-align: left;
+            }
+
+
+        .dropdown-content a:hover {
+            background-color: var(--color-principal);
+            color: var(--color-texto);
+        }
+
+        .show {
+            display: block;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        #btn-logout {
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            #btn-menu {
+                display: block;
+            }
+            .menu-opciones {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <main>
