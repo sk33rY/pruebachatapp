@@ -41,6 +41,7 @@ $nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_com
                 <li><a href="mapa_marcadoreslogin.php">Mapa de búsqueda</a></li>
                 <li><a href="catalogo.php">Busca a tu mascota</a></li>
                 <li><a href="registro_mascota.php">Reporta tu mascota</a></li>
+                <li><a href="catalogo_adopciones.php">Adopciones</a></li>
             </ul>
         </div>
 
@@ -74,8 +75,10 @@ $nombre_completo = isset($row['Nombre_completo']) ? utf8_decode($row['Nombre_com
         <li><a href="inicio.php">Home</a></li>
         <li><a href="mapa_marcadoreslogin.php">Mapa de búsqueda</a></li>
         <li><a href="catalogo.php">Busca a tu mascota</a></li>
-        <li><a href="pruebaregistromascota.html">Reporta tu mascota</a></li>
+        <li><a href="registro_mascota.php">Reporta tu mascota</a></li>
+        <li><a href="catalogo_adopciones.php">Adopciones</a></li>
         <li><a href="bandeja_mensajes.php">Mis chats</a></li>
+
     </ul>
 </nav>
 

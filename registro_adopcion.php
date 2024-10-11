@@ -1,16 +1,7 @@
 <?php
 include('conexion.php');
 session_start();
-
-if (!isset($_SESSION['correo'])) {
-    header("Location: inicio.php");
-    exit;
-}
-
-// Verificar que la conexión a la base de datos esté establecida
-if (!isset($conn)) {
-    die("Error: No se pudo conectar a la base de datos.");
-}
+include("header.php");
 
 // Recuperar y escapar las variables
 $nombre_mascota = $conn->real_escape_string($_POST['nombre_mascota']);

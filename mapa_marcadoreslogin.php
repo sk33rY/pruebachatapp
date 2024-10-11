@@ -10,20 +10,34 @@ include("header_login.php");
     <link rel="stylesheet" href="estilos/mapa_marcadores_login.css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5p7pnKq5ZgMhtuARruzRY0vGWdoMhK4M"></script>
     <style>
+        /* Mapa ocupa el 100% del ancho y 80% del alto de la pantalla */
         #mapa {
-            height: 500px;
-            width: 100%;
+            height: 80vh; /* Altura ajustada al 80% de la altura de la ventana */
+            width: 100%; /* Ancho completo del contenedor */
             border-radius: 0.375rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
         }
-        /* Estilos para el botón del menú de hamburguesa */
-        #btn-menu {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--color-principal);
-            margin-right: 10px;
+
+        /* Otros estilos */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sección principal */
+        main {
+            margin-top: 80px;
+            padding: 0 20px;
+        }
+
+        /* Ajuste del contenedor del mapa */
+        .mapa-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         /* Menú lateral */
@@ -91,7 +105,7 @@ include("header_login.php");
             border-bottom: 1px solid var(--color-principal); /* Línea separadora */
             background-color: var(--background-color);
             text-align: left;
-            }
+        }
 
 
         .dropdown-content a:hover {

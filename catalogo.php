@@ -10,7 +10,7 @@ if (isset($_SESSION['id_usuario'])) {
 
 // Iniciar consulta SQL
 $sql = "SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
-        m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
+        m.tipo_animal,m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
         FROM mascotas m
         JOIN usuario u ON m.usuario_id = u.id_usuario
         WHERE 1=1";
@@ -235,10 +235,6 @@ $result = $sql->get_result();
                         echo '<button class="info-btn" onclick="openModal(' . htmlspecialchars($row_mascota["id_mascota"]) . ')">Más Información</button>';
                         
                         // Añadimos el formulario de buscar coincidencias
-                        echo '<form action="buscar_coincidencias.php" method="post">';
-                        echo '<input type="hidden" name="id_mascota" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">';
-                        echo '<button type="submit" class="btn btn-primary mt-3">Buscar coincidencias</button>';
-                        echo '</form>';
 
                         // Añadimos el formulario para iniciar chat
 
@@ -255,6 +251,7 @@ $result = $sql->get_result();
                     echo '</div>';
                     echo '<div class="modal-body">';
                     echo '<img src="data:image/jpeg;base64,' . htmlspecialchars($row_mascota["imagen"]) . '" alt="Imagen de ' . htmlspecialchars($row_mascota["nombre"]) . '" class="modal-image">';
+                    echo '<p><strong>Tipo:</strong> ' . htmlspecialchars($row_mascota["tipo_animal"]) . '</p>';
                     echo '<p><strong>Raza:</strong> ' . htmlspecialchars($row_mascota["raza"]) . '</p>';
                     echo '<p><strong>Tamaño:</strong> ' . htmlspecialchars($row_mascota["tamano"]) . '</p>';
                     echo '<p><strong>Color:</strong> ' . htmlspecialchars($row_mascota["color"]) . '</p>';
