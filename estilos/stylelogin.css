@@ -229,3 +229,24 @@
       border-top-right-radius: 0;
     }
   }
+  .alerta-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}
+
+.alertaError {
+    display: block;
+}
+
+.alerta-exito {
+    color: green;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+}
+
+.alertaExito {
+    display: block;
+}

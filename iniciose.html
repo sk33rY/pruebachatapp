@@ -17,7 +17,7 @@
         <div class="information">
             <div class="info-childs">
                 <h2>Bienvenido</h2>
-                <p>Para unirte a nuestra comunidad por favor Inicia Sesión con tus datos</p>
+                <p>Para unirte a nuestra comunidad PETLOVERS por favor Inicia Sesión con tus datos</p>
                 <input type="button" value="Iniciar Sesión" id="sign-in">
             </div>
         </div>
@@ -119,5 +119,17 @@
     <script src="js/scriptlogin.js"></script>
     <script src="js/register.js" type="module"></script>
     <script src="js/login_modulo.js" type="module"></script>
+    <script>
+        // Mostrar automáticamente el formulario de inicio de sesión si se pasa ?login=true en la URL
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const login = urlParams.get('login');
+
+            if (login === 'true') {
+                document.querySelector('.register').classList.add('hide');
+                document.querySelector('.login').classList.remove('hide');
+            }
+        };
+    </script>
 </body>
 </html>

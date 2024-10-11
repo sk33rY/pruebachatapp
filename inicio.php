@@ -133,7 +133,7 @@ include("header_login.php");
         <section class="seccion-1">
             <div class="texto">
                 <h1 class="titulo-principal">¿Cuál es el nombre de tu mascota?</h1>
-                <form action="buscar_mascota.php" method="GET">
+                <form action="catalogo.php" method="GET">
                     <input type="text" name="nombre" placeholder="Ingresa el nombre de tu mascota" required>
                     <button type="submit" class="btn-1">Buscar mascota</button>
                 </form>

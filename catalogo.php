@@ -15,6 +15,10 @@ $sql = "SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color,
         JOIN usuario u ON m.usuario_id = u.id_usuario
         WHERE 1=1";
 
+if (!empty($_GET['nombre'])) {
+    $nombre = $conn->real_escape_string($_GET['nombre']);
+    $sql .= " AND m.nombre LIKE '%$nombre%'";
+}
 // Aplicar filtros si están presentes
 if (!empty($_GET['raza'])) {
     $raza = $conn->real_escape_string($_GET['raza']);
@@ -124,28 +128,46 @@ $result = $sql->get_result();
                         echo '<h3>' . htmlspecialchars($row_mascota["nombre"]) . '</h3>';
                         echo '<p class="age">' . htmlspecialchars($row_mascota["tipo"]) . ' &bull; ' . htmlspecialchars($row_mascota["raza"]) . '</p>';
                         echo '<button class="info-btn" onclick="openModal(' . htmlspecialchars($row_mascota["id_mascota"]) . ')">Más Información</button>';
+                        
+                        // Añadimos el formulario de buscar coincidencias
+                        echo '<form action="buscar_coincidencias.php" method="post">';
+                        echo '<input type="hidden" name="id_mascota" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">';
+                        echo '<button type="submit" class="btn btn-primary mt-3">Buscar coincidencias</button>';
+                        echo '</form>';
+
+                        // Añadimos el formulario para iniciar chat
+
                         echo '</div>';
                         echo '</div>';
 
                         // Modal para mostrar más información
-                        echo '<div id="modal-' . htmlspecialchars($row_mascota["id_mascota"]) . '" class="modal">';
-                        echo '<div class="modal-content">';
-                        echo '<span class="close" onclick="closeModal(' . htmlspecialchars($row_mascota["id_mascota"]) . ')">&times;</span>';
-                        echo '<div class="modal-header">';
-                        echo '<h2>' . htmlspecialchars($row_mascota["nombre"]) . '</h2>';
-                        echo '<span class="badge">' . htmlspecialchars($row_mascota["tipo"]) . '</span>';
-                        echo '</div>';
-                        echo '<div class="modal-body">';
-                        echo '<img src="data:image/jpeg;base64,' . htmlspecialchars($row_mascota["imagen"]) . '" alt="Imagen de ' . htmlspecialchars($row_mascota["nombre"]) . '" class="modal-image">';
-                        echo '<p><strong>Raza:</strong> ' . htmlspecialchars($row_mascota["raza"]) . '</p>';
-                        echo '<p><strong>Tamaño:</strong> ' . htmlspecialchars($row_mascota["tamano"]) . '</p>';
-                        echo '<p><strong>Color:</strong> ' . htmlspecialchars($row_mascota["color"]) . '</p>';
-                        echo '<p><strong>Sexo:</strong> ' . htmlspecialchars($row_mascota["sexo"]) . '</p>';
-                        echo '<p><strong>Descripción:</strong> ' . htmlspecialchars($row_mascota["descripcion"]) . '</p>';
-                        echo '<p><strong>Reportado por:</strong> ' . htmlspecialchars($row_mascota["nombre_usuario"]) . '</p>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '</div>';
+                    echo '<div id="modal-' . htmlspecialchars($row_mascota["id_mascota"]) . '" class="modal">';
+                    echo '<div class="modal-content">';
+                    echo '<span class="close" onclick="closeModal(' . htmlspecialchars($row_mascota["id_mascota"]) . ')">&times;</span>';
+                    echo '<div class="modal-header">';
+                    echo '<h2>' . htmlspecialchars($row_mascota["nombre"]) . '</h2>';
+                    echo '<span class="badge">' . htmlspecialchars($row_mascota["tipo"]) . '</span>';
+                    echo '</div>';
+                    echo '<div class="modal-body">';
+                    echo '<img src="data:image/jpeg;base64,' . htmlspecialchars($row_mascota["imagen"]) . '" alt="Imagen de ' . htmlspecialchars($row_mascota["nombre"]) . '" class="modal-image">';
+                    echo '<p><strong>Raza:</strong> ' . htmlspecialchars($row_mascota["raza"]) . '</p>';
+                    echo '<p><strong>Tamaño:</strong> ' . htmlspecialchars($row_mascota["tamano"]) . '</p>';
+                    echo '<p><strong>Color:</strong> ' . htmlspecialchars($row_mascota["color"]) . '</p>';
+                    echo '<p><strong>Sexo:</strong> ' . htmlspecialchars($row_mascota["sexo"]) . '</p>';
+                    echo '<p><strong>Descripción:</strong> ' . htmlspecialchars($row_mascota["descripcion"]) . '</p>';
+                    echo '<p><strong>Reportado por:</strong> ' . htmlspecialchars($row_mascota["nombre_usuario"]) . '</p>';
+
+                    // Botón para iniciar el chat dentro del modal
+                    echo '<form action="chat.php" method="post">';
+                    echo '<input type="hidden" name="reporte_usuario_id" value="' . htmlspecialchars($row_mascota["usuario_id"]) . '">';
+                    echo '<input type="hidden" name="reporte_id" value="' . htmlspecialchars($row_mascota["id_mascota"]) . '">';
+                    echo '<button type="submit" class="btn btn-secondary mt-3">Chatear</button>';
+                    echo '</form>';
+
+                    echo '</div>'; // Cierre del modal-body
+                    echo '</div>'; // Cierre del modal-content
+                    echo '</div>'; // Cierre del modal
+
                     }
                 } else {
                     echo "<p>No hay mascotas registradas.</p>";

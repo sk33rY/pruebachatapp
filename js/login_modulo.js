@@ -1,119 +1,37 @@
-const formRegister = document.querySelector(".form-register");
-const inputUser = document.querySelector('.form-register input[name="Nombres"]');
-const inputPass = document.querySelector('.form-register input[name="password"]');
-const inputEmail = document.querySelector('.form-register input[name="correo"]');
-const alertaError = document.querySelector(".form-register .alerta-error");
-const alertaExito = document.querySelector(".form-register .alerta-exito");
-
-const userNameRegex = /^[a-zA-Z0-9\_\-]{4,16}$/;
-export const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-export const passwordRegex = /^.{4,12}$/;
-
-export const estadoValidacionCampos = {
-  userName: false,
-  userEmail: false,
-  userPassword: false,
-};
-
 document.addEventListener("DOMContentLoaded", () => {
   formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
-    enviarFormulario(formRegister, alertaError, alertaExito);
-  });
 
-  inputUser.addEventListener("input", () => {
-    validarCampo(userNameRegex, inputUser, "El usuario tiene que ser de 4 a 16 dígitos y solo puede contener, letras y guión bajo.");
-  });
+    console.log('Nombre:', inputUser.value);
+    console.log('Correo:', inputEmail.value);
+    console.log('Teléfono:', inputTelefono.value);
+    console.log('Fecha de Nacimiento:', inputFechaNacimiento.value);
+    console.log('Dirección:', inputDireccion.value);
+    console.log('Contraseña:', inputPass.value);
+    console.log('Re-Contraseña:', inputRePass.value);
+    console.log('Términos aceptados:', inputTerminos.checked);
 
-  inputEmail.addEventListener("input", () => {
-    validarCampo(emailRegex, inputEmail, "El correo solo puede contener letras, números, puntos, guiones y guión bajo.");
-  });
+    // Validación del checkbox
+    if (!inputTerminos.checked) {
+      mostrarError("Debes aceptar los Términos y Condiciones.");
+      return;
+    }
 
-  inputPass.addEventListener("input", () => {
-    validarCampo(passwordRegex, inputPass, "La contraseña tiene que ser de 4 a 12 dígitos");
+    validarCampo(userNameRegex, inputUser, "El nombre de usuario debe tener entre 4 y 16 caracteres.");
+    validarCampo(emailRegex, inputEmail, "El correo no es válido.");
+    validarCampo(passwordRegex, inputPass, "La contraseña debe tener entre 4 y 12 caracteres.");
+    validarCampo(telefonoRegex, inputTelefono, "El teléfono debe tener 10 dígitos y comenzar con 3.");
+    validarContraseñasIguales(inputPass, inputRePass);
+    validarCampoNoVacio(inputFechaNacimiento, "La fecha de nacimiento es obligatoria.");
+    validarCampoNoVacio(inputDireccion, "La dirección es obligatoria.");
+
+    // Verificar si todos los campos son válidos
+    console.log('Estado de validación:', estadoValidacionCampos);
+
+    if (Object.values(estadoValidacionCampos).every(Boolean)) {
+      enviarFormulario(formRegister, alertaError, alertaExito);
+    } else {
+      mostrarError("Todos los campos son obligatorios.");
+    }
   });
 });
-
-export function validarCampo(regularExpresion, campo, mensaje) {
-  const esValido = regularExpresion.test(campo.value);
-  if (esValido) {
-    eliminarAlerta(campo.parentElement.parentElement);
-    estadoValidacionCampos[campo.name] = true;
-    campo.parentElement.classList.remove("error");
-  } else {
-    estadoValidacionCampos[campo.name] = false;
-    campo.parentElement.classList.add("error");
-    mostrarAlerta(campo.parentElement.parentElement, mensaje);
-  }
-}
-
-function mostrarAlerta(referencia, mensaje) {
-  eliminarAlerta(referencia);
-  const alertaDiv = document.createElement("div");
-  alertaDiv.classList.add("alerta");
-  alertaDiv.textContent = mensaje;
-  referencia.appendChild(alertaDiv);
-}
-
-function eliminarAlerta(referencia) {
-  const alerta = referencia.querySelector(".alerta");
-  if (alerta) alerta.remove();
-}
-
-export function enviarFormulario(form, alertaError, alertaExito) {
-  if (estadoValidacionCampos.userName && estadoValidacionCampos.userEmail && estadoValidacionCampos.userPassword) {
-    const formData = new FormData(form);
-
-    fetch('RegistroUser.php', {
-      method: 'POST',
-      body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        if (alertaExito) {
-          alertaExito.textContent = data.message;
-          alertaExito.classList.add("alertaExito");
-        }
-        if (alertaError) {
-          alertaError.classList.remove("alertaError");
-        }
-        form.reset();
-        setTimeout(() => {
-          if (alertaExito) {
-            alertaExito.classList.remove("alertaExito");
-          }
-        }, 3000);
-      } else {
-        mostrarError(data.message);
-      }
-    })
-    .catch(error => {
-      mostrarError('Hubo un error al registrar el usuario');
-      console.error('Error:', error);
-    });
-
-    return;
-  }
-
-  if (alertaExito) {
-    alertaExito.classList.remove("alertaExito");
-  }
-  if (alertaError) {
-    alertaError.classList.add("alertaError");
-  }
-  setTimeout(() => {
-    if (alertaError) {
-      alertaError.classList.remove("alertaError");
-    }
-  }, 3000);
-}
-
-
-function mostrarError(mensaje) {
-  alertaError.textContent = mensaje;
-  alertaError.classList.add("alertaError");
-  setTimeout(() => {
-    alertaError.classList.remove("alertaError");
-  }, 3000);
-}

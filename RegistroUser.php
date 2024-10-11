@@ -4,8 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-header('Content-Type: application/json');
-
 $nombres = $_POST['Nombres'] ?? '';
 $correo = $_POST['correo'] ?? '';
 $telefono = $_POST['telefono'] ?? '';
@@ -42,7 +40,9 @@ $password_hashed = mysqli_real_escape_string($mysql, $password_hashed);
 $query = "INSERT INTO usuario (Nombre_completo, numero_telefono, correo, fecha_nacimiento, direccion_residencia, contrasenia) VALUES ('$nombres', '$telefono', '$correo', '$fecha_nacimiento', '$direccion_residencia', '$password_hashed')";
 
 if ($mysql->query($query) === TRUE) {
-    echo json_encode(['status' => 'success', 'message' => 'Usuario creado correctamente']);
+    // Redirigir a la misma página y mostrar el formulario de inicio de sesión
+    header('Location: iniciose.html?login=true');
+    exit;
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Error creando usuario: ' . $mysql->error]);
 }

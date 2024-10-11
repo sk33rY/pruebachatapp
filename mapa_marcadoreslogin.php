@@ -2,21 +2,140 @@
 include("header_login.php");
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PETLOVER</title>
-    <link rel="stylesheet" href="estilos/mapa_marcadores.css">
+    <link rel="stylesheet" href="estilos/mapa_marcadores_login.css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5p7pnKq5ZgMhtuARruzRY0vGWdoMhK4M"></script>
+    <style>
+        #mapa {
+            height: 500px;
+            width: 100%;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        /* Estilos para el botón del menú de hamburguesa */
+        #btn-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-principal);
+            margin-right: 10px;
+        }
+
+        /* Menú lateral */
+        .menu-lateral {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: #fff;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+
+        .menu-lateral ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-lateral ul li {
+            padding: 15px;
+            border-bottom: 1px solid #444;
+        }
+
+        .menu-lateral ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Mostrar menú cuando está activo */
+        .menu-lateral.active {
+            transform: translateX(0);
+        }
+
+        /* Menú desplegable */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--background-color);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--color-texto);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+        /* Estilo del nombre dentro del menú desplegable */
+        .dropdown-username {
+            display: block;
+            padding: 12px 16px;
+            font-weight: bold;
+            color: var(--color-texto);
+            border-bottom: 1px solid var(--color-principal); /* Línea separadora */
+            background-color: var(--background-color);
+            text-align: left;
+            }
+
+
+        .dropdown-content a:hover {
+            background-color: var(--color-principal);
+            color: var(--color-texto);
+        }
+
+        .show {
+            display: block;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        #btn-logout {
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            #btn-menu {
+                display: block;
+            }
+            .menu-opciones {
+                display: none;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <!-- Menú lateral -->
-
-
+    <main>
+        <section class="seccion-1">
+            <section class="mapa">
+                <section class="text-center mb-4">
+                    <h2>Mapa de Mascotas Registradas</h2>
+                </section>
+                <div id="mapa"></div>
+            </section>
+        </section>
+    </main>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="js/scriptindex.js"></script>
     <!-- Archivo JS para cargar los marcadores en el mapa -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -67,13 +186,11 @@ include("header_login.php");
                         <button style="background-color: #1ABC9C; color: white; border: none; padding: 12px 18px; border-radius: 25px; cursor: pointer; font-size: 1em; font-weight: bold; width: 100%; text-align: center; transition: background-color 0.3s ease;" 
                             onmouseover="this.style.backgroundColor='#16A085';" 
                             onmouseout="this.style.backgroundColor='#1ABC9C';" 
-                            onclick="window.location.href = 'chat.php';">
+                            onclick="window.location.href = 'iniciose.html';">
                             <i class="fas fa-comment-alt"></i> Chatear con el dueño
                         </button>
                     </div>
                 `;
-                
-                
                 
                     
                     function iniciarChat(receptorId) {
