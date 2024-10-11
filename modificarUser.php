@@ -1,38 +1,43 @@
 <?php
 include("conexion.php");
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $Nombre_completo = isset($_POST['Nombres']) ? $_POST['Nombres'] : '';
-    $numero_telefono = isset($_POST['numero_telefono']) ? $_POST['numero_telefono'] : '';
-    $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
-    $fecha_nacimiento = isset($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : '';
-    $direccion_residencia = isset($_POST['direccion_residencia']) ? $_POST['direccion_residencia'] : '';
-
-    if ($Nombre_completo && $numero_telefono && $correo && $fecha_nacimiento && $direccion_residencia) {
-        $stmt = $conn->prepare("UPDATE usuario SET Nombre_completo=?, numero_telefono=?, correo=?, fecha_nacimiento=?, direccion_residencia=? WHERE correo=?");
-        $stmt->bind_param("ssssss", $Nombre_completo, $numero_telefono, $correo, $fecha_nacimiento, $direccion_residencia, $_SESSION['correo']);
-
-        if ($stmt->execute()) {
-            header("Location: inicio.php");
-            exit;
-        } else {
-            echo '<p>Error al actualizar los datos: ' . $stmt->error . '</p>';
-        }
-
-        $stmt->close();
-    } else {
-        echo '<p>Por favor, complete todos los campos.</p>';
-    }
+// Verificar si la sesión tiene un correo
+if (!isset($_SESSION['correo'])) {
+    header("location: iniciose.html");
+    exit;
 }
 
-$conn->close();
+$user = $_SESSION['correo'];
+
+// Verificar si el formulario ha sido enviado
+if (isset($_POST['submit'])) {
+    // Obtener los nuevos datos desde el formulario
+    $nombre_completo = $_POST['Nombres'];
+    $correo = $_POST['correo'];
+    $numero_telefono = $_POST['numero_telefono'];
+    $fecha_nacimiento = $_POST['fecha_nacimiento'];
+    $direccion_residencia = $_POST['direccion_residencia'];
+
+    // Preparar la consulta de actualización
+    $sql = "UPDATE usuario SET Nombre_completo=?, correo=?, numero_telefono=?, fecha_nacimiento=?, direccion_residencia=? WHERE correo=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssss", $nombre_completo, $correo, $numero_telefono, $fecha_nacimiento, $direccion_residencia, $user);
+
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        // Actualizar la sesión con el nuevo correo si fue cambiado
+        $_SESSION['correo'] = $correo;
+        
+        // Redirigir directamente al perfil del usuario con un mensaje de éxito
+        header("Location: perfil.php?update=success");
+        exit;
+    } else {
+        // Si hay algún error, mostrar un mensaje de error
+        echo "Error al actualizar los datos.";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
-
-       
-
-   
-
-
-
-
-

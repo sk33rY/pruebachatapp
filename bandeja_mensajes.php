@@ -1,6 +1,5 @@
 <?php
 include("header_login.php");
-include("header.php");
 
 
 if (!isset($_SESSION['correo'])) {

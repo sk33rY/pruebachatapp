@@ -4,7 +4,7 @@ include('config_cifrado.php');
 session_start();
 
 if (!isset($_SESSION['correo'])) {
-    header("Location: IniciarSesion.php");
+    header("Location: iniciose.php");
     exit;
 }
 
