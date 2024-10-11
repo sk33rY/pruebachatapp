@@ -51,7 +51,7 @@ if ($result_reporte->num_rows > 0) {
 
             // Mostrar resultados ordenados
             ?>
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">

@@ -261,6 +261,7 @@ form.addEventListener('submit', function(event) {
     xhr.open('POST', form.action, true);
     xhr.onload = function() {
         if (this.status === 200) {
+            window.location.reload();
             chatBox.innerHTML += this.responseText;
             chatBox.scrollTop = chatBox.scrollHeight; // Mantener el scroll al final
             textarea.value = ''; // Limpiar el textarea

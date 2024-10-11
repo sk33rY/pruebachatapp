@@ -97,7 +97,7 @@ header .controles-usuario {
 }
 
 header .controles-usuario ion-icon {
-    font-size: 45px;
+    font-size: 20px;
     cursor: pointer;
     color: var(--color-principal);
 }
@@ -105,6 +105,38 @@ header .controles-usuario ion-icon {
 header .controles-usuario ion-icon:hover {
     color: var(--color-hover);
 }
+/* Añadir estilo para los íconos de notificaciones y chats */
+.controles-usuario .icono {
+    font-size: 20px;
+    margin-right: 10px;
+    color: var(--color-principal);
+    transition: color 0.3s ease;
+}
+
+.controles-usuario .icono:hover {
+    color: var(--color-hover);
+}
+
+/* Ajustar el tamaño del ícono del usuario */
+.user-container ion-icon {
+    font-size: 40px;
+    cursor: pointer;
+    color: var(--color-principal);
+}
+
+.icono img {
+    width: 30px;
+    height: 30px;
+    background-color: transparent; /* Fondo transparente */            /* Para hacer los bordes circulares */
+    border: none;                   /* Quitar bordes si los hay */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.icono img:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
 
 /* Menú lateral para móviles */
 #menu-lateral {

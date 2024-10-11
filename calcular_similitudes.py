@@ -3,7 +3,6 @@ import json
 from math import radians, cos, sin, sqrt, atan2
 
 def calcular_similitud_descripcion(desc1, desc2):
-    # Convertir descripciones en conjuntos de palabras, omitiendo palabras de 3 letras o menos
     palabras1 = set(word for word in desc1.lower().split() if len(word) > 3)
     palabras2 = set(word for word in desc2.lower().split() if len(word) > 3)
     coincidencias = palabras1.intersection(palabras2)
@@ -29,8 +28,8 @@ def calcular_similitud(mascota_perdida, mascota_encontrada):
     peso_raza = 0.2
     peso_tamano = 0.2
     peso_color = 0.2
-    peso_descripcion = 0.3
-    peso_ubicacion = 0.1
+    peso_descripcion = 0.2
+    peso_ubicacion = 0.2
 
     similitud_raza = 100 if mascota_perdida['raza'] == mascota_encontrada['raza'] else 0
     similitud_tamano = 100 if mascota_perdida['tamano'] == mascota_encontrada['tamano'] else 0
@@ -60,7 +59,13 @@ def calcular_similitud(mascota_perdida, mascota_encontrada):
     if similitud_ubicacion > 0:
         coincidencias.append(f"Ubicación: {similitud_ubicacion:.2f}% de proximidad")
 
-    return {'data': mascota_encontrada, 'coincidencias': coincidencias, 'similaridad': similitud_total}
+    # Asegurarse de devolver la distancia en kilómetros en el resultado
+    return {
+        'data': mascota_encontrada,
+        'coincidencias': coincidencias,
+        'similaridad': similitud_total,
+        'distancia_km': distancia_km  # Asegurarse de devolver la distancia
+    }
 
 if __name__ == "__main__":
     # Leer los datos desde el archivo pasado como argumento
