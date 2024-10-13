@@ -20,6 +20,9 @@
                     <li>
                         <a href="registro_mascota.php">Registrar mascota</a>
                     </li>
+                    <li>
+                        <a href="catalogo_adopciones.php">Adopciones</a>
+                    </li>
                 </ul>
             </div>
             <div class="controles-usuario">

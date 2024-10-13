@@ -314,7 +314,7 @@ main .seccion-1 button.btn-1:focus {
         transition: height 0.5s ease;
     }
     header .menu-opciones.mostrar{
-        height: 280px;
+        height: 320px;
     }
     header .menu-opciones.min{
         height: calc(100vh - 80px);

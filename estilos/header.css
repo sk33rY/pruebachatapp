@@ -148,10 +148,10 @@ header #home{
         transition: height 0.5s ease;
     }
     header .menu-opciones.mostrar{
-        height: 280px;
+        height:auto;
     }
     header .menu-opciones.min{
-        height: calc(100vh - 80px);
+        height: auto;/*cambio*/
         overflow-y: auto;
     }
     header .menu-opciones ul{
@@ -181,7 +181,7 @@ header #home{
         transition: height 0.5s ease;
     }
     header .menu-opciones.mostrar {
-        height: 280px;
+        height: 320px;
     }
     header .menu-opciones.min {
         height: calc(100vh - 80px);

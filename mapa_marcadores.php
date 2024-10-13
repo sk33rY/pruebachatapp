@@ -21,26 +21,6 @@ include("header.php");
     </style>
 </head>
 <body>
-    <header>
-        <div class="contenedor">
-            <div class="logo">
-                <ion-icon name="ionicons ion-map"></ion-icon>
-                <span>PETLOVER</span>
-            </div>
-            <div class="menu-opciones">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="mapa_marcadores.html">Mapa de busqueda</a></li>
-                    <li><a href="catalogo.php">Busca a tu mascota</a></li>
-                    <li><a href="registro_mascota.php">Registra tu mascota</a></li>
-                </ul>
-            </div>
-            <div class="controles-usuario">
-                <button id="btn-sign-up">Regístrate</button>
-                <ion-icon id="btn-menu" name="menu"></ion-icon>
-            </div>
-        </div>
-    </header>
     <main>
         <section class="seccion-1">
             <section class="mapa">

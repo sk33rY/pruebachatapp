@@ -51,7 +51,7 @@ if ($result_reporte->num_rows > 0) {
 
             // Mostrar resultados ordenados
             ?>
-<!DOCTYPE html>
+            <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -150,9 +150,6 @@ if ($result_reporte->num_rows > 0) {
     </style>
 </head>
 <body>
-    <?php include('header2.php'); ?>
-    <?php include('header.php'); ?>
-
     <main>
         <section class="seccion-1">
             <div class="texto">
@@ -184,7 +181,9 @@ if ($result_reporte->num_rows > 0) {
                 echo '</div>';
                 
                 echo '<p class="similaridad-total">Similaridad Total: ' . round($resultado['similaridad'], 2) . '%</p>';
+    
                 echo '</div>';
+            
             }
             ?>
 

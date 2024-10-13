@@ -7,7 +7,6 @@ if (isset($_SESSION['id_usuario'])) {
 } else {
     include("header.php");
 }
-
 // Iniciar consulta SQL
 $sql = "SELECT m.id_mascota, m.nombre, m.descripcion, m.raza, m.tamano, m.color, m.sexo, 
         m.tipo_animal,m.imagen, m.lat, m.lng, m.tipo, m.usuario_id, u.Nombre_completo AS nombre_usuario
@@ -264,6 +263,8 @@ $result = $sql->get_result();
                         echo '<button type="submit" class="btn btn-primary mt-3">Buscar coincidencias</button>';
                         echo '</form>';
                         // Botón para iniciar el chat
+                          // Verificar si el usuario actual es el reportante
+                          // Botón para iniciar el chat
                           // Verificar si el usuario actual es el reportante
                           if ($_SESSION['id_usuario'] != $row_mascota['usuario_id']) {
                             // Botón para iniciar el chat

@@ -19,7 +19,7 @@ def calcular_distancia(lat1, lng1, lat2, lng2):
     # Aplicar la fórmula de Haversine
     dlat = lat2 - lat1
     dlng = lng2 - lng1
-    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlng / 2)**2
+    a = sin(dlat / 2)*2 + cos(lat1) * cos(lat2) * sin(dlng / 2)*2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     distancia = 6371 * c  # 6371 es el radio de la Tierra en kilómetros
     return distancia
@@ -67,7 +67,7 @@ def calcular_similitud(mascota_perdida, mascota_encontrada):
         'distancia_km': distancia_km  # Asegurarse de devolver la distancia
     }
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     # Leer los datos desde el archivo pasado como argumento
     with open(sys.argv[1], 'r') as file:
         data = json.load(file)

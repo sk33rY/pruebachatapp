@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'); 
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+ 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-
+ 
 body {
     background-color: #eee4db;
     padding: 20px;
@@ -14,7 +14,7 @@ body {
     font-size: 16px;
     line-height: 1.6;
 }
-
+ 
 .catalogo-container {
     max-width: 1200px;
     margin: 90px auto;
@@ -23,7 +23,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
 }
-
+ 
 .filters {
     width: 250px;
     background-color: #ffffff;
@@ -33,13 +33,13 @@ body {
     margin-right: 20px;
     max-height: 580px;
 }
-
+ 
 .filter-buttons {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
-
+ 
 .filter-btn {
     background-color: #f1e5d1;
     color: #da7f3d;
@@ -55,29 +55,29 @@ body {
     align-items: center;
     justify-content: center;
 }
-
+ 
 .filter-btn img {
     width: 20px;
     height: 20px;
     margin-right: 5px;
 }
-
+ 
 .filter-btn.selected {
     background-color: #f8bb83;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
+ 
 .filter-group {
     margin-bottom: 20px;
 }
-
+ 
 .filter-group h3 {
     font-size: 1.1rem;
     color: #333;
     margin-bottom: 10px;
     font-weight: 600;
 }
-
+ 
 .filter-group select {
     width: 100%;
     padding: 8px;
@@ -86,7 +86,7 @@ body {
     font-size: 1rem;
     background-color: #f7f7f7;
 }
-
+ 
 .filter-group select:focus {
     outline: none;
     border-color: #da7f3d;
@@ -104,16 +104,16 @@ body {
     margin-top: 10px; /* Margen superior */
     display: inline-block; /* Para mantener el tamaño del botón */
 }
-
+ 
 .btn:hover {
     background-color: #f8bb83; /* Color de fondo al pasar el cursor */
 }
-
+ 
 .filter-btn.selected {
     background-color: #c96b28; /* Color de fondo al ser seleccionado */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra adicional */
 }
-
+ 
 .btn-primary {
     background-color: #da7f3d; /* Color de fondo del botón primario */
     color: white; /* Color del texto */
@@ -125,18 +125,18 @@ body {
     transition: background-color 0.3s ease; /* Transición suave en el fondo */
     display: inline-block; /* Para mantener el tamaño del botón */
 }
-
+ 
 .btn-primary:hover {
     background-color: #f8bb83; /* Color de fondo al pasar el cursor */
 }
-
+ 
 .catalogo {
-    flex-grow: 1; 
+    flex-grow: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
-
+ 
 .card {
     background-color: #fff;
     border-radius: 10px;
@@ -145,17 +145,17 @@ body {
     position: relative;
     transition: transform 0.2s ease-in-out;
 }
-
+ 
 .card:hover {
     transform: translateY(-5px);
 }
-
+ 
 .card-header img {
     width: 100%;
     height: 150px;
     object-fit: cover;
 }
-
+ 
 .favorite-btn {
     position: absolute;
     top: 10px;
@@ -167,56 +167,56 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
+ 
 .favorite-btn:hover {
     background-color: rgba(255, 255, 255, 1);
 }
-
+ 
 .favorite-btn ion-icon {
     font-size: 1.5rem;
     color: #da7f3d;
 }
-
+ 
 .card-body {
-    padding: 10px; 
+    padding: 10px;
     text-align: center;
 }
-
+ 
 .card-body h3 {
     font-size: 1.2rem;
     color: #333;
     margin-bottom: 8px;
 }
-
+ 
 .card-body .age {
     font-size: 0.9rem;
     color: #777;
     margin-bottom: 8px;
 }
-
+ 
 .card-body .distance {
     font-size: 0.9rem;
     color: #da7f3d;
     font-weight: 600;
 }
-
+ 
 /* Responsividad para pantallas pequeñas */
 @media (max-width: 768px) {
     .catalogo-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
-
+ 
     .filters {
-        width: 100%; 
+        width: 100%;
         margin-right: 0;
         margin-bottom: 20px;
     }
-
+ 
     .catalogo {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
 }
-
+ 
 /* Modal Estilos */
 .modal {
     display: none;
@@ -227,24 +227,24 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     padding-top: 60px;
 }
-
+ 
 .modal-content {
     background-color: #fff;
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 90%;
-    max-width: 800px; 
+    max-width: 800px;
     border-radius: 10px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
+ 
 .close {
     color: #aaa;
     position: absolute;
@@ -254,26 +254,26 @@ body {
     font-weight: bold;
     cursor: pointer;
 }
-
+ 
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-
+ 
 .modal-header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+ 
 .modal-header h2 {
     font-size: 2rem;
     margin: 0;
 }
-
+ 
 .badge {
     background-color: #da7f3d;
     color: #fff;
@@ -282,12 +282,12 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
 }
-
+ 
 .modal-body {
     width: 100%;
     text-align: left;
 }
-
+ 
 .modal-image {
     width: 100%;
     height: auto;
@@ -296,7 +296,7 @@ body {
     border-radius: 10px;
     margin-bottom: 20px;
 }
-
+ 
 .info-btn {
     background-color: #da7f3d;
     color: white;
@@ -308,7 +308,9 @@ body {
     transition: background-color 0.3s ease;
     margin-top: 10px;
 }
-
+ 
 .info-btn:hover {
     background-color: #f8bb83;
 }
+ 
+ 

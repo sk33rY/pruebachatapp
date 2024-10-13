@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,6 +6,53 @@
     <title>Registrar Mascota</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="estilos/registromascota.css">
+    <style>
+        /* Estilo cuando una opción está seleccionada */
+        .icon-option.selected {
+            background-color: green;
+            color: white;
+            border: 2px solid #000;
+        }
+
+        .icon-option.selected img {
+            filter: brightness(0.8); /* Oscurece un poco la imagen seleccionada */
+        }
+
+        .icon-option {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .icon-option img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .option-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .btn-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -38,17 +84,17 @@
             <div class="step">
                 <h3>Paso 2: Tipo de Animal</h3>
                 <div class="option-buttons">
-                    <div class="icon-option" id="option-perro" data-target="tipo_animal">
+                    <div class="icon-option" data-target="tipo_animal">
                         <img src="Imagenes/perritoicono.png" alt="Perro">
                         <p>Perro</p>
                         <input type="radio" name="tipo_animal" value="perro" class="d-none" required>
                     </div>
-                    <div class="icon-option" id="option-gato" data-target="tipo_animal">
+                    <div class="icon-option" data-target="tipo_animal">
                         <img src="Imagenes/gato.png" alt="Gato">
                         <p>Gato</p>
                         <input type="radio" name="tipo_animal" value="gato" class="d-none" required>
                     </div>
-                    <div class="icon-option" id="option-otro" data-target="tipo_animal">
+                    <div class="icon-option" data-target="tipo_animal">
                         <img src="Imagenes/animales2.png" alt="Otro">
                         <p>Otro</p>
                         <input type="radio" name="tipo_animal" value="otro" class="d-none" required>
@@ -94,7 +140,6 @@
                 </div>
             </div>
 
-            <!-- Resto de los pasos... -->
             <!-- Paso 5: Nombre -->
             <div class="step">
                 <h3>Paso 5: Nombre</h3>
@@ -111,12 +156,12 @@
             <div class="step">
                 <h3>Paso 6: Sexo</h3>
                 <div class="option-buttons">
-                    <div class="icon-option">
+                    <div class="icon-option" data-target="sexo">
                         <img src="img/macho.png" alt="Macho">
                         <p>Macho</p>
                         <input type="radio" name="sexo" value="macho" class="d-none" required>
                     </div>
-                    <div class="icon-option">
+                    <div class="icon-option" data-target="sexo">
                         <img src="img/hembra.png" alt="Hembra">
                         <p>Hembra</p>
                         <input type="radio" name="sexo" value="hembra" class="d-none" required>
@@ -132,17 +177,17 @@
             <div class="step">
                 <h3>Paso 7: Tamaño</h3>
                 <div class="option-buttons">
-                    <div class="icon-option">
+                    <div class="icon-option" data-target="tamano">
                         <img src="img/pequeno.png" alt="Pequeño">
                         <p>Pequeño</p>
                         <input type="radio" name="tamano" value="pequeño" class="d-none" required>
                     </div>
-                    <div class="icon-option">
+                    <div class="icon-option" data-target="tamano">
                         <img src="img/mediano.png" alt="Mediano">
                         <p>Mediano</p>
                         <input type="radio" name="tamano" value="mediano" class="d-none" required>
                     </div>
-                    <div class="icon-option">
+                    <div class="icon-option" data-target="tamano">
                         <img src="img/grande.png" alt="Grande">
                         <p>Grande</p>
                         <input type="radio" name="tamano" value="grande" class="d-none" required>
